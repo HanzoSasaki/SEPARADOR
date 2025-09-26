@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separador de Etiquetas PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Separador de Etiquetas PDF</h1>
+            <p class="description">Carregue um PDF com etiquetas (normalmente 2 por folha) e o software as separará automaticamente, criando uma etiqueta por página.</p>
+        </header>
+        
+        <section class="upload-section" id="uploadSection">
+            <input type="file" id="pdfInput" class="file-input" accept=".pdf">
+            <button class="upload-btn" id="uploadBtn">
+                <span class="btn-text">Selecionar Arquivo PDF</span>
+            </button>
+            <p class="file-info">Arraste e solte um arquivo PDF aqui ou clique no botão acima</p>
+        </section>
+        
+        <section class="config-section">
+            <div class="config-group">
+                <h3>Configurações de Detecção</h3>
+                <div class="form-group">
+                    <label for="detectionMode">Modo de Detecção:</label>
+                    <select id="detectionMode">
+                        <option value="auto" selected>Automático (2 etiquetas por folha)</option>
+                        <option value="manual">Manual (especificar layout)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="manualConfig" style="display: none;">
+                    <label for="rows">Etiquetas por Linha:</label>
+                    <input type="number" id="rows" min="1" value="2">
+                </div>
+                <div class="form-group" id="manualConfig2" style="display: none;">
+                    <label for="cols">Linhas por Página:</label>
+                    <input type="number" id="cols" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="margin">Margem ao Redor da Etiqueta (mm):</label>
+                    <input type="number" id="margin" min="0" max="20" value="5">
+                </div>
+            </div>
+            
+            <div class="config-group">
+                <h3>Configurações de Saída</h3>
+                <div class="form-group">
+                    <label for="pageSize">Tamanho da Página de Saída:</label>
+                    <select id="pageSize">
+                        <option value="a4" selected>A4</option>
+                        <option value="letter">Carta</option>
+                        <option value="auto">Automático (ajustar ao conteúdo)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="outputQuality">Qualidade de Saída:</label>
+                    <select id="outputQuality">
+                        <option value="high">Alta</option>
+                        <option value="medium" selected>Média</option>
+                        <option value="low">Baixa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="scalingMode">Modo de Dimensionamento:</label>
+                    <select id="scalingMode">
+                        <option value="fit" selected>Ajustar à página</option>
+                        <option value="actual">Tamanho real</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        
+        <section class="preview-section">
+            <div class="preview-container">
+                <div class="preview-box">
+                    <h3><i>📄</i> Visualização Original</h3>
+                    <div class="canvas-container" id="originalCanvas">
+                        <p>Nenhum PDF carregado</p>
+                    </div>
+                </div>
+                
+                <div class="preview-box">
+                    <h3><i>🔍</i> Etiquetas Detectadas</h3>
+                    <div class="canvas-container" id="detectionCanvas">
+                        <p>Processe o PDF para ver as etiquetas detectadas</p>
+                    </div>
+                    <div class="results-info" id="resultsInfo">
+                        <h4>Resultados do Processamento</h4>
+                        <p id="labelsCount">Etiquetas detectadas: 0</p>
+                        <p id="pagesCount">Páginas criadas: 0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="action-section">
+            <button class="process-btn" id="processBtn" disabled>
+                <span class="btn-text">Separar Etiquetas</span>
+            </button>
+            <button class="download-btn" id="downloadBtn" disabled>Baixar PDF Separado</button>
+            <div class="status" id="status"></div>
+        </section>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Carregando PDF...</div>
+            <div class="loading-details" id="loadingDetails">Isso pode levar alguns segundos</div>
+            <div class="progress-bar">
+                <div class="progress" id="loadingProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"> </script>
+</body>
+</html>
